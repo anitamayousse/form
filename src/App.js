@@ -1,4 +1,5 @@
 
+import { render } from '@testing-library/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from "react";
 import './App.css'
@@ -58,17 +59,17 @@ class App extends React.Component {
     }
   }
   handleSubmit(e) {
-    if (this.state.email !== "" || this.state.password !== "") {
-      alert(`Your email is +${this.state.email}`);
+    if (this.state.email === "is-valid" || this.state.password === "is-valid") {
       e.preventDefault();
+      return this.renderSubmit
     } else {
       alert("Verify your email or password");
     }
   }
   renderSubmit() {
     if (
-      this.state.email === "is-valid" && 
-      this.state.password === "is-valid"
+      this.setState.email === true && 
+      this.setState.password === true
     ) {
   
     return(
@@ -96,7 +97,9 @@ class App extends React.Component {
           validPassword={this.state.validPassword}
           onSubmit={this.handleSubmit}
         />
+      <>
       {this.renderSubmit()}
+      </>,
       </div>
     );
   }
