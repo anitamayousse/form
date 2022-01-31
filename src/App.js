@@ -4,56 +4,95 @@ import React from "react";
 import './App.css'
 
 class App extends React.Component {
-  constructor () {
-  super ();
+  constructor() {
+    super();
 
-  this.state = {
-    email: "",
-    password: "",
-    isSubmitted: false,
+    this.state = {
+      email: "",
+      password: "",
+      isSubmitted: false,
+    };
+
+    this.handleEmail = this.handleEmail.bind(this);
+    this.handlePassword = this.handlePassword.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  this.validateForm = this.validateForm.bind(this);
-  this.handleSubmit = this.handleSubmit.bind(this)
-}
+  handleEmail(e) {
+    this.setState({
+      email: e.target.value,
+      isSubmitted: true,
+    });
+  }
+  handlePassword(e) {
+    this.setState({
+      password: e.target.value,
+      isSubmitted: true,
+    });
+  }
 
-validateForm(){
-  return this.email.length > 0 && this.password.length > 0;
-}
+  handleSubmit(e) {
 
-handleSubmit(event) {
-  console.log('Your email is' + this.state.email + "Your password is" + this.state.password + 'are submitted');
-  event.preventDefault();
-}
+    e.preventDefault();
+  }
+
   render() {
     return (
-      <div className="container-fluid">
-      <form onSubmit={this.handleSubmit}>
-        <form controlId="email">
-          <label>Email</label>
+      <div className= "container">
+      <form className="was-validated" onSubmit={this.handleSubmit}>
+
+        <div class="mb-3">
+          <label className="form-label" for="validationEmail">
+            Email:
+          </label>
           <input
-            autoFocus
-            type="email"
-            value={this.email}
-            onChange={(e) => this.setEmail(e.target.value)}
-          />
-        </form>
-        <form  controlId="password">
-          <label>Password</label>
-          <form
+            class="form-control is-invalid w-50"
+            id="validationEmail"
+            placeholder="Your email"
+            value={this.state.email}
+            onChange={this.handleEmail}
+            required
+          >
+          </input>
+        </div>
+
+        <div class="mb-3">
+          <label className="form-label" for="validationPassword">
+            Password:
+          </label>
+          <input
+            class="form-control is-invalid w-50"
             type="password"
-            value={this.password}
-            onChange={(e) => this.setPassword(e.target.value)}
+            id="validationPassword"
+            placeholder="Your password"
+            value={this.state.password}
+            onChange={this.handlePassword}
+            required
+          >
+          </input>
+        </div>
+
+        <div className="mb-3">
+          <input
+            type="checkbox"
+            className="p-2 m-2"
+            value="remember-me"
+            id="remember_me"
           />
-        </form>
-        <input type="checkbox" class="p-2 m-2" value="remember-me" id="remember_me"/>  Remember me
-        <button type="submit" disabled={!this.validateForm()}>
-          Login
-        </button>
+          Remember me
+        </div>
+
+        <div className="mb-3">
+          <input
+            type="submit"
+            className="p-2 m-2"
+            value="Submit"
+            onChange={this.handleSubmit}
+          />
+        </div>
       </form>
       </div>
     );
   }
 }
-
 export default App;
