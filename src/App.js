@@ -12,8 +12,8 @@ class App extends React.Component {
     this.state = {
       email: "",
       password: "",
-      validEmail: "is-invalid",
-      validPassword: "is-invalid",
+      validEmail: "",
+      validPassword: "",
     };
 
     this.handleEmail = this.handleEmail.bind(this);
@@ -27,8 +27,16 @@ class App extends React.Component {
         /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
         ))
     {
-      this.setState({ email: e.target.value });
-      this.setState({ validEmail: "is-valid" });
+      this.setState({ 
+        email: "" ,
+        validEmail: "is-valid" ,
+      });
+    }
+    else{
+      this.setState({ 
+        email: "" ,
+        validEmail: "is-invalid" 
+      });
     }
   }
 
@@ -38,11 +46,17 @@ class App extends React.Component {
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
       )) 
     {
-      this.setState({ password: e.target.value });
-      this.setState({ validPassword: "is-valid" });
+      this.setState({ 
+        password: "",
+        validPassword: "is-valid" });
+    }
+    else{
+      this.setState({ 
+        password: "" ,
+        validPassword: "is-invalid" 
+      });
     }
   }
-
   handleSubmit(e) {
     if (this.state.email !== "" || this.state.password !== "") {
       alert(`Your email is +${this.state.email}`);
@@ -50,6 +64,26 @@ class App extends React.Component {
     } else {
       alert("Verify your email or password");
     }
+  }
+  renderSubmit() {
+    if (
+      this.state.email === "is-valid" && 
+      this.state.password === "is-valid"
+    ) {
+  
+    return(
+      <section>
+      <h1>You are connected</h1>
+      </section>
+    );
+  }
+    else  {
+      return (
+          <section>
+              <p>You are not connected!</p>
+          </section>
+      );
+  }
   }
 
   render() {
@@ -62,6 +96,7 @@ class App extends React.Component {
           validPassword={this.state.validPassword}
           onSubmit={this.handleSubmit}
         />
+      {this.renderSubmit()}
       </div>
     );
   }
