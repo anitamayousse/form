@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from "react";
 import './App.css'
 
+import Form from "./components/Form";
+
 class App extends React.Component {
   constructor() {
     super();
@@ -10,7 +12,8 @@ class App extends React.Component {
     this.state = {
       email: "",
       password: "",
-      isSubmitted: false,
+      validEmail: "is-invalid",
+      validPassword: "is-invalid",
     };
 
     this.handleEmail = this.handleEmail.bind(this);
@@ -19,78 +22,46 @@ class App extends React.Component {
   }
 
   handleEmail(e) {
-    this.setState({
-      email: e.target.value,
-      isSubmitted: true,
-    });
+    if (
+      e.target.value.match(
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        ))
+    {
+      this.setState({ email: e.target.value });
+      this.setState({ validEmail: "is-valid" });
+    }
   }
+
   handlePassword(e) {
-    this.setState({
-      password: e.target.value,
-      isSubmitted: true,
-    });
+    if (
+      e.target.value.match(
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
+      )) 
+    {
+      this.setState({ password: e.target.value });
+      this.setState({ validPassword: "is-valid" });
+    }
   }
 
   handleSubmit(e) {
-
-    e.preventDefault();
+    if (this.state.email !== "" || this.state.password !== "") {
+      alert(`Your email is +${this.state.email}`);
+      e.preventDefault();
+    } else {
+      alert("Verify your email or password");
+    }
   }
 
   render() {
     return (
-      <div className= "container">
-      <form className="was-validated" onSubmit={this.handleSubmit}>
-
-        <div class="mb-3">
-          <label className="form-label" for="validationEmail">
-            Email:
-          </label>
-          <input
-            class="form-control is-invalid w-50"
-            id="validationEmail"
-            placeholder="Your email"
-            value={this.state.email}
-            onChange={this.handleEmail}
-            required
-          >
-          </input>
-        </div>
-
-        <div class="mb-3">
-          <label className="form-label" for="validationPassword">
-            Password:
-          </label>
-          <input
-            class="form-control is-invalid w-50"
-            type="password"
-            id="validationPassword"
-            placeholder="Your password"
-            value={this.state.password}
-            onChange={this.handlePassword}
-            required
-          >
-          </input>
-        </div>
-
-        <div className="mb-3">
-          <input
-            type="checkbox"
-            className="p-2 m-2"
-            value="remember-me"
-            id="remember_me"
-          />
-          Remember me
-        </div>
-
-        <div className="mb-3">
-          <input
-            type="submit"
-            className="p-2 m-2"
-            value="Submit"
-            onChange={this.handleSubmit}
-          />
-        </div>
-      </form>
+      <div>
+        <Form
+          handleEmail={this.handleEmail}
+          handlePassword={this.handlePassword}
+          validEmail={this.state.validEmail}
+          validPassword={this.state.validPassword}
+          onSubmit={this.handleSubmit}
+        />
       </div>
     );
   }
